@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store - Boxing Gear</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="welcome.html">Home</a></li>
+            <li><a href="fighters.html">Fighters</a></li>
+            <li><a href="event.html">Event</a></li>
+            <li><a href="store.html" class="active">Store</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Our Boxing Gear</h2>
+        <p>Equip yourself with the best boxing gear to elevate your game. Browse our selection below:</p>
+
+        <div class="gear-container">
+            <div class="gear-item">
+                <img src="static/gloves.jpg" alt="Boxing Gloves">
+                <h3>Boxing Gloves</h3>
+                <p>Price: $50</p>
+                <button class="buy-now" data-name="Boxing Gloves" data-price="50">Buy Now</button>
+            </div>
+
+            <div class="gear-item">
+                <img src="static/wraps.jpg" alt="Boxing Wraps">
+                <h3>Boxing Wraps</h3>
+                <p>Price: $20</p>
+                <button class="buy-now" data-name="Boxing Wraps" data-price="20">Buy Now</button>
+            </div>
+
+            <div class="gear-item">
+                <img src="static/headgear.jpg" alt="Head Gear">
+                <h3>Head Gear</h3>
+                <p>Price: $30</p>
+                <button class="buy-now" data-name="Head Gear" data-price="30">Buy Now</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="cart-indicator">
+        <span id="cart-count">0</span>
+    </div>
+
+    <div class="cart-modal" style="display: none;">
+        <div class="cart-content">
+            <h3>Shopping Cart</h3>
+            <ul id="cart-items-list">
+                <li>You have nothing added to your shopping cart.</li>
+            </ul>
+            <button id="close-cart">Close</button>
+            <button id="checkout-button" style="display: none;">Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        let cartCount = 0;
+        const cartItems = [];
+
+        document.querySelectorAll('.buy-now').forEach(button => {
+            button.addEventListener('click', function () {
+                const productName = this.getAttribute('data-name');
+                const productPrice = parseFloat(this.getAttribute('data-price'));
+                cartItems.push({ name: productName, price: productPrice });
+                cartCount++;
+                document.getElementById('cart-count').textContent = cartCount;
+                updateCartModal();
+            });
+        });
+
+        function updateCartModal() {
+            const cartItemsList = document.getElementById('cart-items-list');
+            cartItemsList.innerHTML = '';
+            cartItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - $${item.price}`;
+                cartItemsList.appendChild(li);
+            });
+
+            if (cartItems.length === 0) {
+                cartItemsList.innerHTML = '<li>You have nothing added to your shopping cart.</li>';
+                document.getElementById('checkout-button').style.display = 'none';
+            } else {
+                document.getElementById('checkout-button').style.display = 'block';
+            }
+        }
+
+        document.getElementById('cart-count').addEventListener('click', function () {
+            document.querySelector('.cart-modal').style.display = 'flex';
+        });
+
+        document.getElementById('close-cart').addEventListener('click', function () {
+            document.querySelector('.cart-modal').style.display = 'none';
+        });
+
+        document.getElementById('checkout-button').addEventListener('click', function () {
+            window.location.href = 'checkout.html';
+        });
+    </script>
+</body>
+</html>
